@@ -1,0 +1,57 @@
+==================
+=  Review:  =
+==================
+Fractal shape is a shape with recursive structure, this program is designed to print fractal shapes in ASCII to the
+console in different shapes and depths.
+The program reads a CSV file with the shapes types and depths, parses the file and prints the shapes.
+Due to the recursive structure of the shapes the whole design of the program is recursive.
+
+The program supports 3 type of shapes :
+1.Sierpinski Carpet
+2.Sierpinski Sieve
+3.Cantor Dust
+
+==================
+=  Usage:  =
+==================
+Compile the program using the Makefile.
+Run:
+$ fractal-drawer test.csv
+
+where test.csv is a file this form: (Shape_type in [1-3])
+Shape1Type,depth
+Shape2Type,depth
+..
+..
+
+
+==================
+=  Description:  =
+==================
+Design:
+I decided to have 5 classes in my program that will manage the fractal drawing:
+
+1.FractalPart - A "base" class which represents a fractal part in a fractal shape, a part has a height(how many fractal
+levels composing it) and other parameters that relate to the fractal shape itself.
+2.FractalShape - An abstract class which represents a fractal shape of some kind, this class has special methods that
+setts the fractal parameters and build the fractal parts.
+3,4,5.CarpetFractal,SieveFractal,CantorFractal - 3 Classes the inherits from FractalShape and define 3 types of fractal
+shapes.
+
+Having FractalShape class helps the program to hold all kind of shapes in a vector of FractalShape pointers
+(Polymorphism) and draw each shape using the same method (printShape).
+
+Due to the recursive structure of fractal shapes, FractalShape can be treated as a part of fractal shape and it inherits
+from FractalPart class. Having a special class for shapes (FractalShape) makes the code more clear (The program could
+work without FractalShape but I decided it is more readable with it).
+
+Fractal Drawing:
+I decided to have a vector of strings which represents the lines of the fractal shape.
+The fractal drawing process is recursive and uses the grid size variable to iterate over all the indexes in the grid
+and call the draw method of the father part (the smaller part) with relevant parameters (shouldPrint).
+The recursion has a base case at height=0 which is adding to the current line the relevant sign char.
+
+Rule Of 5:
+This program does not move/copy instances but it supports the movement of FractalPart instances only.
+The rule of 5 is implemented in FractalPart class which can manage instances copy and move operations using different
+methods.
